@@ -1,20 +1,17 @@
 using UnityEngine;
 
-public class BulletBehavior : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-    public float lifeTime = 2f;  // Bullet lifetime in seconds
+    public float lifeTime = 2f; // Time before the bullet destroys itself
 
-    void Start()
+    private void Start()
     {
-        Destroy(gameObject, lifeTime);  // Destroy bullet after time expires
+        Destroy(gameObject, lifeTime); // Destroy the bullet after a set lifetime
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Enemy"))
-        {
-            Destroy(other.gameObject);  // Destroy enemy when hit by bullet
-            Destroy(gameObject);  // Destroy the bullet
-        }
+        // Destroy bullet on collision
+        Destroy(gameObject);
     }
 }

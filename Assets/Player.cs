@@ -35,4 +35,41 @@ public class Player : MonoBehaviour
 
         healthBar.SetHealth(currentHealth);
     }
+
+public class PlayerController : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+    public GameObject bulletPrefab;
+    public Transform shootingPoint;
+    public float bulletSpeed = 10f;
+
+    private void Update()
+    {
+        MovePlayer();
+        if (Input.GetKeyDown(KeyCode.Space)) // Shoot when spacebar is pressed
+        {
+            Shoot();
+        }
+    }
+
+    void MovePlayer()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Vector2 movement = new Vector2(horizontalInput, verticalInput) * moveSpeed * Time.deltaTime;
+        transform.Translate(movement);
+    }
+
+    void Shoot()
+    {
+        // Instantiate the bullet
+        GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
+
+        // Get the Rigidbody2D component and set its velocity
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(bulletSpeed, 0); // You can adjust the direction if needed
+    }
+}
+
 }
